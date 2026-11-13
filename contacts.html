@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Контакты — Antel Art</title>
+<meta name="description" content="Контакты Antel Art: Ташкент, улица Юзработ, 30. Телефон +998 55 503 42 24, Telegram @antel_uz.">
+<link rel="icon" href="logo-mark.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="contacts.html">
+
+<div id="site-header"></div>
+
+<section class="phead">
+  <div class="wrap">
+    <div class="crumbs"><a href="index.html" data-i18n="home">Главная</a><i>/</i><span data-i18n="navContacts">Контакты</span></div>
+    <h1 data-i18n="conTitle">Контакты</h1>
+    <p data-i18n="conLead"></p>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="cgrid" id="cgrid"></div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head"><h2 class="title" data-i18n="mapTitle">Мы на карте</h2></div>
+    <div class="mapbox" id="mapbox"></div>
+  </div>
+</section>
+
+<section class="sec soft" style="padding-top:0">
+  <div class="wrap" style="padding-top:70px">
+    <div class="split">
+      <div class="split-ph"><img src="img/press.jpg" alt=""></div>
+      <div class="prose">
+        <div class="eyebrow" data-i18n="conMap">Как добраться</div>
+        <h2 data-i18n="conAddr">Адрес</h2>
+        <p data-i18n="conMapV"></p>
+        <p data-i18n="conReqV"></p>
+        <div style="margin-top:26px;display:flex;gap:12px;flex-wrap:wrap">
+          <a href="https://t.me/antel_uz" target="_blank" rel="noopener" class="btn btn-lime" data-i18n="headCta"></a>
+          <a href="tel:+998555034224" class="btn btn-ghost">+998 55 503 42 24</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="assets/data.js"></script>
+<script>
+function renderPage(){
+  const card = (icon, label, body, extra) => `<div class="ccard">
+    <div class="ic">${ICON[icon]}</div>
+    <b>${label}</b>
+    ${body}
+    ${extra ? `<small>${extra}</small>` : ''}
+  </div>`;
+
+  $('#cgrid').innerHTML =
+    card('pin', t('conAddr'), `<p>${t('conAddrV')}</p>`, t('conLandmark')) +
+    card('phone', t('conPhone'),
+      `<a href="tel:+998555034224">+998 55 503 42 24</a><a href="tel:+998998552151">+998 99 855 21 51</a>`,
+      t('telSub')) +
+    card('mail', t('conMail'),
+      `<a href="mailto:webantelart@gmail.com">webantelart@gmail.com</a>`, '') +
+    card('clock', t('conHours'), `<p>${t('conHoursV')}</p>`, '') +
+    card('tg', t('conTg'),
+      `<a href="${TG}" target="_blank" rel="noopener">@antel_uz</a>`, t('conTgV')) +
+    card('pin', t('conReq'), `<p style="font-size:15px">ООО «ANTEL ART»</p>`, t('conReqV'));
+
+  /* ---- карта ---- */
+  const Q = encodeURIComponent('Antel Art, Yuzrabot 30, Mirzo Ulugbek, Tashkent');
+  $('#mapbox').innerHTML = `
+    <div class="mapview">
+      <svg viewBox="0 0 800 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <rect width="800" height="450" fill="#EDF3E6"/>
+        <g fill="#DFEAD2">
+          <rect x="40" y="40" width="190" height="120" rx="6"/>
+          <rect x="270" y="30" width="150" height="90" rx="6"/>
+          <rect x="470" y="50" width="200" height="110" rx="6"/>
+          <rect x="60" y="250" width="170" height="140" rx="6"/>
+          <rect x="300" y="270" width="140" height="120" rx="6"/>
+          <rect x="500" y="250" width="210" height="150" rx="6"/>
+        </g>
+        <g stroke="#fff" fill="none" stroke-linecap="round">
+          <path d="M0 210 H800" stroke-width="34"/>
+          <path d="M255 0 V450" stroke-width="26"/>
+          <path d="M455 0 V450" stroke-width="18"/>
+          <path d="M0 425 H800" stroke-width="16"/>
+        </g>
+        <g stroke="#C9DCB4" stroke-width="2" stroke-dasharray="9 9" fill="none">
+          <path d="M0 210 H800"/><path d="M255 0 V450"/>
+        </g>
+        <g fill="#9FB98A" font-size="13" font-family="Manrope, sans-serif" font-weight="700">
+          <text x="24" y="200">${t('mapDistrict')}</text>
+          <text x="600" y="440">${t('mapCity')}</text>
+        </g>
+        <circle cx="400" cy="210" r="56" fill="#8CC63F" opacity=".18"/>
+        <circle cx="400" cy="210" r="30" fill="#8CC63F" opacity=".26"/>
+      </svg>
+      <div class="mappin">
+        <span class="lbl"><b>ANTEL ART</b><small>${t('stripAddr')}</small></span>
+        <span class="drop"></span>
+      </div>
+    </div>
+    <div class="mapfoot">
+      <div class="addr">
+        <b>${t('stripAddr')}</b>
+        <small>${t('conLandmark')} · ${t('mapNote')}</small>
+      </div>
+      <div class="mbtns">
+        <a href="https://www.google.com/maps/search/?api=1&query=${Q}" target="_blank" rel="noopener">${t('mapOpenG')}</a>
+        <a href="https://yandex.uz/maps/?text=${Q}" target="_blank" rel="noopener">${t('mapOpenY')}</a>
+      </div>
+    </div>`;
+}
+</script>
+<script src="assets/app.js"></script>
+</body>
+</html>

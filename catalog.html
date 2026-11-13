@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Каталог — Antel Art</title>
+<meta name="description" content="Каталог продукции и услуг Antel Art: полиграфия, сувенирная продукция, широкоформатная печать, резка и гравировка.">
+<link rel="icon" href="logo-mark.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="catalog.html">
+
+<div id="site-header"></div>
+
+<section class="phead">
+  <div class="wrap">
+    <div class="crumbs"><a href="index.html" data-i18n="home">Главная</a><i>/</i><span data-i18n="navCatalog">Каталог</span></div>
+    <h1 data-i18n="catTitle">Каталог продукции и услуг</h1>
+    <p data-i18n="catLead"></p>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="toolbar">
+      <div class="chips" id="chips"></div>
+      <div class="tools-right">
+        <span class="count" id="count"></span>
+        <select class="sort" id="sort"></select>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section class="sec soft">
+  <div class="wrap">
+    <div class="cta">
+      <div>
+        <h3 data-i18n="ctaT">Пришлите макет — посчитаем за 15 минут</h3>
+        <p data-i18n="ctaP"></p>
+      </div>
+      <div class="acts">
+        <a href="https://t.me/antel_uz" target="_blank" rel="noopener" class="btn btn-lime" data-i18n="headCta">Написать в Telegram</a>
+        <a href="tel:+998555034224" class="btn btn-out">+998 55 503 42 24</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="assets/data.js"></script>
+<script>
+let cat  = new URLSearchParams(location.search).get('cat') || 'all';
+if (!CATS.includes(cat)) cat = 'all';
+let sort = 'default';
+
+function renderPage(){
+  /* чипсы категорий */
+  $('#chips').innerHTML = CATS.map(c =>
+    `<button class="chip${c===cat?' on':''}" data-chip="${c}">${t('cat_'+c)}</button>`).join('');
+  $$('[data-chip]').forEach(b => b.addEventListener('click', () => {
+    cat = b.dataset.chip;
+    history.replaceState(null, '', cat === 'all' ? 'catalog.html' : 'catalog.html?cat=' + cat);
+    renderPage(); revealAll();
+  }));
+
+  /* сортировка */
+  $('#sort').innerHTML =
+    `<option value="default">${t('sortDefault')}</option>` +
+    `<option value="cheap">${t('sortCheap')}</option>` +
+    `<option value="exp">${t('sortExpensive')}</option>`;
+  $('#sort').value = sort;
+  $('#sort').onchange = e => { sort = e.target.value; renderPage(); revealAll(); };
+
+  /* список */
+  let list = PRODUCTS.filter(p => cat === 'all' || p.cat === cat);
+  const num = p => parseInt(p.price.replace(/\s/g,''), 10);
+  if (sort === 'cheap') list = [...list].sort((a,b) => num(a)-num(b));
+  if (sort === 'exp')   list = [...list].sort((a,b) => num(b)-num(a));
+
+  $('#count').textContent = t('found') + ' ' + list.length;
+  $('#grid').innerHTML = list.length ? list.map(cardHTML).join('')
+                                     : `<div class="empty">${t('emptyCat')}</div>`;
+}
+</script>
+<script src="assets/app.js"></script>
+</body>
+</html>

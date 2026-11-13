@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Статья — Antel Art</title>
+<link rel="icon" href="logo-mark.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="blog.html">
+
+<div id="site-header"></div>
+
+<section class="phead" id="phead"></section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="article" id="article"></div>
+  </div>
+</section>
+
+<section class="sec soft" style="padding-top:0">
+  <div class="wrap" style="padding-top:70px">
+    <div class="sec-head">
+      <h2 class="title" data-i18n="blogT">Последние публикации</h2>
+      <a href="blog.html" class="link-all"><span data-i18n="artBack">Все статьи</span> →</a>
+    </div>
+    <div class="posts" id="other"></div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="assets/data.js"></script>
+<script>
+const aid = new URLSearchParams(location.search).get('id');
+const A = ARTICLES.find(x => x.id === aid) || ARTICLES[0];
+
+function renderPage(){
+  const L = loc(A);
+  document.title = L.title + ' — Antel Art';
+
+  $('#phead').innerHTML = `<div class="wrap">
+    <div class="crumbs">
+      <a href="index.html">${t('home')}</a><i>/</i>
+      <a href="blog.html">${t('navBlog')}</a><i>/</i>
+      <span>${A.date}</span>
+    </div>
+    <h1>${L.title}</h1>
+  </div>`;
+
+  $('#article').innerHTML =
+    `<div class="cover"><img src="img/${A.img}" alt=""></div>
+     <p class="lead">${L.lead}</p>
+     ${L.body.map(p => `<p>${p}</p>`).join('')}
+     <div class="askbox">
+       <b>${t('artShare')}</b>
+       <p>${t('artShareP')}</p>
+       <a href="${TG}" target="_blank" rel="noopener" class="btn btn-lime">${t('headCta')}</a>
+     </div>`;
+
+  $('#other').innerHTML = ARTICLES.filter(x => x.id !== A.id).map(a => {
+    const O = loc(a);
+    return `<a href="article.html?id=${a.id}" class="post">
+      <div class="ph"><img src="img/${a.img}" alt="" loading="lazy"></div>
+      <div class="in">
+        <time>${a.date}</time>
+        <h3>${O.title}</h3>
+        <p>${O.lead}</p>
+        <div class="rd">${t('readMore')} →</div>
+      </div></a>`;
+  }).join('');
+}
+</script>
+<script src="assets/app.js"></script>
+</body>
+</html>

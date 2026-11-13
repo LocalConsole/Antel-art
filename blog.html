@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Блог — Antel Art</title>
+<meta name="description" content="Статьи Antel Art о материалах, цвете, сроках и подводных камнях в полиграфии и наружной рекламе.">
+<link rel="icon" href="logo-mark.png">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body data-page="blog.html">
+
+<div id="site-header"></div>
+
+<section class="phead">
+  <div class="wrap">
+    <div class="crumbs"><a href="index.html" data-i18n="home">Главная</a><i>/</i><span data-i18n="navBlog">Блог</span></div>
+    <h1 data-i18n="blogTitle">Блог</h1>
+    <p data-i18n="blogLead"></p>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="posts" id="posts"></div>
+  </div>
+</section>
+
+<section class="sec soft" style="padding-top:0">
+  <div class="wrap" style="padding-top:70px">
+    <div class="cta">
+      <div>
+        <h3 data-i18n="artShare">Остались вопросы?</h3>
+        <p data-i18n="artShareP"></p>
+      </div>
+      <div class="acts">
+        <a href="https://t.me/antel_uz" target="_blank" rel="noopener" class="btn btn-lime" data-i18n="headCta"></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<script src="assets/data.js"></script>
+<script>
+function renderPage(){
+  $('#posts').innerHTML = ARTICLES.map(a => {
+    const L = loc(a);
+    return `<a href="article.html?id=${a.id}" class="post">
+      <div class="ph"><img src="img/${a.img}" alt="" loading="lazy"></div>
+      <div class="in">
+        <time>${a.date}</time>
+        <h3>${L.title}</h3>
+        <p>${L.lead}</p>
+        <div class="rd">${t('readMore')} →</div>
+      </div></a>`;
+  }).join('');
+}
+</script>
+<script src="assets/app.js"></script>
+</body>
+</html>
